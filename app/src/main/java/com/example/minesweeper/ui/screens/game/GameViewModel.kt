@@ -1,11 +1,14 @@
 package com.example.minesweeper.ui.screens.game
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 data class Pos(val row: Int, val col: Int)
 
 class GameViewModel(val size: Pos, val numOfMines: Int) : ViewModel() {
-    val board = Array(size.row) { Array(size.col) { MineField(MineFieldTypes.NUMBER, 0) } }
+    val board = Array(size.row) { Array(size.col) { MineField() } }
 
     init {
         placeMines()
@@ -32,7 +35,7 @@ class GameViewModel(val size: Pos, val numOfMines: Int) : ViewModel() {
                 if (pos.col + colIncrement < 0 || pos.col + colIncrement >= size.col)
                     continue
 
-                board[pos.row][pos.col].adjacentMines++
+                board[pos.row + rowIncrement][pos.col + colIncrement].adjacentMines++
             }
         }
     }

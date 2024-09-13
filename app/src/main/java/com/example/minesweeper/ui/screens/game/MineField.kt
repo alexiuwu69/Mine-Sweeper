@@ -1,6 +1,12 @@
 package com.example.minesweeper.ui.screens.game
 
-class MineField(var type: MineFieldTypes, var adjacentMines: Int) {
-    var isFlagged = false
-    var isExposed = false
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+class MineField {
+    var type = MineFieldTypes.NUMBER
+    var adjacentMines = 0
+    var isFlagged by mutableStateOf(false)
+    var isExposed by mutableStateOf(false)
 }

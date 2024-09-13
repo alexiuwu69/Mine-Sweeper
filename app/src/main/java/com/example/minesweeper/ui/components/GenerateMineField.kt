@@ -1,26 +1,21 @@
 package com.example.minesweeper.ui.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import com.example.minesweeper.ui.screens.game.GameViewModel
+import com.example.minesweeper.ui.screens.game.MineField
+import com.example.minesweeper.ui.screens.game.Pos
 import com.example.minesweeper.ui.screens.game.Selectors
 
 @Composable
 fun GenerateMineField(gameViewModel: GameViewModel, selector: Selectors) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        for (row in 0..<gameViewModel.size.row) {
-            Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
-                for (col in 0..<gameViewModel.size.col) {
-                    MineFieldSquare(gameViewModel.board[row][col], selector,
-                        Modifier
-                            .fillMaxSize()
-                            .weight(1f)) // Doesn't generate squares
-                }
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(gameViewModel.size.col)
+    ) {
+        items(items = gameViewModel.board.flatten()) { cell ->
+                MineFieldCell(cell, selector)
         }
     }
 }
