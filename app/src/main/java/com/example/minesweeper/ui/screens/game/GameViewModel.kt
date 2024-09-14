@@ -1,8 +1,5 @@
 package com.example.minesweeper.ui.screens.game
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 data class Pos(val row: Int, val col: Int)

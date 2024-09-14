@@ -27,11 +27,11 @@ fun MineFieldCell(mineField: MineField, selector: Selectors) {
             if (mineField.isExposed)
                 return@Surface
 
-            if (selector == Selectors.MINE)
+            if (selector == Selectors.MINE && !mineField.isFlagged)
                 mineField.isExposed = true
 
             else if (selector == Selectors.FLAG) // redundant but it's for clarity
-                mineField.isFlagged = true
+                mineField.isFlagged = !mineField.isFlagged
         }
     ) {
         Row(modifier = Modifier.fillMaxSize(),

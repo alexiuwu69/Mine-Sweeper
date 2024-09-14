@@ -21,6 +21,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.minesweeper.ui.components.GenerateMineField
 import com.example.minesweeper.ui.screens.Screens
@@ -28,7 +31,13 @@ import com.example.minesweeper.ui.screens.Screens
 @Composable
 fun Game(innerPadding: PaddingValues, navController: NavHostController) {
     var selector by rememberSaveable { mutableStateOf(Selectors.MINE) }
-    val gameViewModel = GameViewModel(Pos(10, 10), 10)
+    val gameViewModel = viewModel<GameViewModel>(
+        factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return GameViewModel(Pos(10, 10),10) as T
+            }
+        }
+    ) // I stole this code from this guy: https://www.youtube.com/watch?v=9sqvBydNJSg
 
     Column(
         modifier = Modifier
@@ -53,7 +62,7 @@ fun Game(innerPadding: PaddingValues, navController: NavHostController) {
                 color = if (selector == Selectors.MINE) Color.Cyan else Color.Red,
                 modifier = Modifier.size(50.dp),
                 onClick = { selector = if (selector != Selectors.FLAG) Selectors.FLAG else Selectors.MINE })
-            {} // changing the value of selector seems to reset the gameViewModel.. Which shouldn't happen
+            {}
         }
 
         GenerateMineField(gameViewModel, selector)

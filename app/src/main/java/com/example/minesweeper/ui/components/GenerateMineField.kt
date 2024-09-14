@@ -5,8 +5,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import com.example.minesweeper.ui.screens.game.GameViewModel
-import com.example.minesweeper.ui.screens.game.MineField
-import com.example.minesweeper.ui.screens.game.Pos
 import com.example.minesweeper.ui.screens.game.Selectors
 
 @Composable
