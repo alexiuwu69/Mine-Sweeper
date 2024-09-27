@@ -44,5 +44,9 @@ fun Home(innerPadding: PaddingValues, navController: NavController, viewModel: H
             "Mines",
             viewModel.mineAmountSliderPos,
             viewModel.mineAmount) { viewModel.mineAmountSliderPos = it }
+        
+        Button(onClick = viewModel::randomizeBoardValues) {
+            Text(text = "Randomize")
+        }
     }
 }
