@@ -7,12 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.minesweeper.ui.screens.Screens
 import com.example.minesweeper.ui.screens.game.Game
 import com.example.minesweeper.ui.screens.home.Home
+import com.example.minesweeper.ui.screens.home.HomeViewModel
 import com.example.minesweeper.ui.theme.MineSweeperTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,17 +22,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val homeViewModel = viewModel<HomeViewModel>()
             val navController = rememberNavController()
             MineSweeperTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
                     NavHost(navController, startDestination = Screens.Home.route) {
                         composable(Screens.Home.route) {
-                            Home(innerPadding, navController)
+                            Home(innerPadding, navController, homeViewModel)
                         }
 
                         composable(Screens.Game.route) {
-                            Game(innerPadding, navController)
+                            Game(innerPadding, navController, homeViewModel.width, homeViewModel.height, homeViewModel.mineAmount)
                         }
                     }
                 }

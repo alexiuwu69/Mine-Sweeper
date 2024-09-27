@@ -34,13 +34,13 @@ import com.example.minesweeper.ui.components.GenerateMineField
 import com.example.minesweeper.ui.screens.Screens
 
 @Composable
-fun Game(innerPadding: PaddingValues, navController: NavHostController) {
+fun Game(innerPadding: PaddingValues, navController: NavHostController, width: Int, height: Int, mineAmount: Int) {
     var selector by rememberSaveable { mutableStateOf(Selectors.MINE) }
 
     val gameViewModel = viewModel<GameViewModel>(
         factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return GameViewModel(Pos(10, 10),10) as T
+                return GameViewModel(Pos(height, width),mineAmount) as T
             }
         }
     ) // I stole that part of the code from this guy: https://www.youtube.com/watch?v=9sqvBydNJSg
