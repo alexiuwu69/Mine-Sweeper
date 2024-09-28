@@ -13,7 +13,7 @@ fun GenerateMineField(gameViewModel: GameViewModel, selector: Selectors) {
         columns = GridCells.Fixed(gameViewModel.size.col)
     ) {
         items(items = gameViewModel.board.flatten()) { cell ->
-                MineFieldCell(cell, selector)
+                MineFieldCell(cell, selector, gameViewModel::exposeEmptyAdjacentSquares)
         }
     }
 }

@@ -5,21 +5,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.example.minesweeper.R
 import com.example.minesweeper.ui.screens.game.MineField
 import com.example.minesweeper.ui.screens.game.MineFieldTypes
 import com.example.minesweeper.ui.screens.game.Selectors
 
 @Composable
-fun MineFieldCell(mineField: MineField, selector: Selectors) {
+fun MineFieldCell(mineField: MineField, selector: Selectors, exposeEmptyAdjacentSquares: (MineField) -> Unit) {
     Surface(
         modifier = Modifier
             .aspectRatio(1f),
@@ -30,7 +27,10 @@ fun MineFieldCell(mineField: MineField, selector: Selectors) {
             if (selector == Selectors.MINE && !mineField.isFlagged)
                 mineField.isExposed = true
 
-            else if (selector == Selectors.FLAG) // redundant but it's for clarity
+            if (mineField.adjacentMines == 0 && !mineField.isFlagged)
+                exposeEmptyAdjacentSquares(mineField)
+
+            else if (selector == Selectors.FLAG)
                 mineField.isFlagged = !mineField.isFlagged
         }
     ) {

@@ -4,8 +4,13 @@ import androidx.lifecycle.ViewModel
 
 data class Pos(val row: Int, val col: Int)
 
-class GameViewModel(val size: Pos, val numOfMines: Int) : ViewModel() {
+class GameViewModel(val size: Pos, private val numOfMines: Int) : ViewModel() {
     val board = Array(size.row) { Array(size.col) { MineField() } }
+    private val adjacentSquares = listOf(
+        Pos(1, 0), // top
+        Pos(0, 1), // right
+        Pos(-1, 0), // bottom
+        Pos(0, -1)) // left
 
     init {
         placeMines()
@@ -34,6 +39,35 @@ class GameViewModel(val size: Pos, val numOfMines: Int) : ViewModel() {
 
                 board[pos.row + rowIncrement][pos.col + colIncrement].adjacentMines++
             }
+        }
+    }
+
+    fun exposeEmptyAdjacentSquares(mineField: MineField) {
+        for (row in board.indices) {
+            for (col in board[row].indices) {
+                if (mineField === board[row][col])
+                    exposeEmptyAdjacentSquares(row, col)
+            }
+        }
+    }
+
+    private fun exposeEmptyAdjacentSquares(row: Int, col: Int) {
+        for (pos in adjacentSquares) {
+            val newRow = row + pos.row
+            val newCol = col + pos.col
+
+            if (newRow < 0 || newRow >= size.row)
+                continue
+
+            if (newCol < 0 || newCol >= size.col)
+                continue
+            //avoiding index out of bounce
+
+            if (board[newRow][newCol].adjacentMines > 0 || board[newRow][newCol].isExposed)
+                continue
+
+            board[newRow][newCol].isExposed = true
+            exposeEmptyAdjacentSquares(newRow, newCol)
         }
     }
 }
