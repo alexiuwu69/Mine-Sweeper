@@ -63,11 +63,14 @@ class GameViewModel(val size: Pos, private val numOfMines: Int) : ViewModel() {
                 continue
             //avoiding index out of bounce
 
-            if (board[newRow][newCol].adjacentMines > 0 || board[newRow][newCol].isExposed)
+            val square = board[newRow][newCol]
+
+            if (square.isExposed || square.isFlagged)
                 continue
 
-            board[newRow][newCol].isExposed = true
-            exposeEmptyAdjacentSquares(newRow, newCol)
+            square.isExposed = true
+            if (square.adjacentMines == 0)
+                exposeEmptyAdjacentSquares(newRow, newCol)
         }
     }
 }
