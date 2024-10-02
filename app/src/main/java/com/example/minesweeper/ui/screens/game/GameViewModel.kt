@@ -7,10 +7,14 @@ data class Pos(val row: Int, val col: Int)
 class GameViewModel(val size: Pos, private val numOfMines: Int) : ViewModel() {
     val board = Array(size.row) { Array(size.col) { MineField() } }
     private val adjacentSquares = listOf(
-        Pos(1, 0), // top
+        Pos(-1, -1), // top left
+        Pos(-1, 0), // top center
+        Pos(-1, 1), // top right
+        Pos(0, -1), // left
         Pos(0, 1), // right
-        Pos(-1, 0), // bottom
-        Pos(0, -1)) // left
+        Pos(1, -1), // bottom left
+        Pos(1, 0), // bottom center
+        Pos(1, 1)) // bottom right
 
     init {
         placeMines()

@@ -27,7 +27,7 @@ fun MineFieldCell(mineField: MineField, selector: Selectors, exposeEmptyAdjacent
             if (selector == Selectors.MINE && !mineField.isFlagged)
                 mineField.isExposed = true
 
-            if (mineField.adjacentMines == 0 && !mineField.isFlagged)
+            if (mineField.adjacentMines == 0 && !mineField.isFlagged && selector == Selectors.MINE)
                 exposeEmptyAdjacentSquares(mineField)
 
             else if (selector == Selectors.FLAG)
